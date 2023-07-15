@@ -1,0 +1,9 @@
+// Copyright (c) 2023, Swaraj Kumar Singh
+// https://github.com/swarajkumarsingh
+//
+// Use of this source code is governed by an MIT-style
+// license that can be found in the LICENSE file or at
+// https://opensource.org/licenses/MIT.
+
+// Generated code. Do not modify.
+const packageVersion = '0.0.1';
