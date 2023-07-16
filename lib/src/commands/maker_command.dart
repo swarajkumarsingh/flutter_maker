@@ -5,11 +5,12 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
+// ignore_for_file: cascade_invocations
+
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
 import 'package:flutter_maker/src/commands_helper.dart';
-import 'package:flutter_maker/src/local/local_strings.dart';
 import 'package:flutter_maker/src/string_extension.dart';
 import 'package:mason_logger/mason_logger.dart';
 
@@ -32,7 +33,7 @@ class MakerCommand extends Command<int> {
   Future<int> run() async {
     final featureName = argResults!.arguments.first.lower;
     final fileless = argResults!.wasParsed('fileless');
-    _logger.progress('Started Building');
+    _logger.progress('Total time --> ');
 
     if (featureName.isEmpty) {
       _logger.err('invalid feature name');
@@ -51,127 +52,60 @@ class MakerCommand extends Command<int> {
     commandHelper.createFeatureFolder();
 
     //! create featureName(home) folder
-    final featureNameDir = Directory('${libFolder.path}/feature/$featureName');
-    createFolder(featureNameDir, featureName);
+    commandHelper.createFeatureNameFolder(featureName);
 
     //! create data folder
-    final dataDir = Directory('${libFolder.path}/feature/$featureName/data');
-    createFolder(dataDir, 'data');
+    commandHelper.createDataFolder(featureName);
 
     //! create data_source folder
-    final dataSourceDir = Directory(
-      '${libFolder.path}/feature/$featureName/data/data_source',
-    );
-    createFolder(dataSourceDir, 'data_source');
+    commandHelper.createDataSourceFolder(featureName);
 
     //? create data_source file
-    if (!fileless) {
-      createFile(
-        '${libFolder.path}/feature/$featureName/data/data_source/${featureName}_data_source.dart',
-        localString.getDataSourceString(featureName),
-      );
-    }
+    commandHelper.createDataSourceFile(fileless, featureName);
 
     //! create local folder
-    final localDir =
-        Directory('${libFolder.path}/feature/$featureName/data/local');
-    createFolder(localDir, 'local');
+    commandHelper.createLocalFolder(featureName);
+
     //? create data_provider file
-    if (!fileless) {
-      createFile(
-        '${libFolder.path}/feature/$featureName/data/local/${featureName}_data_provider.dart',
-        localString.getLocalDataString(featureName),
-      );
-    }
+    commandHelper.createLocalFile(fileless, featureName);
 
-    // Repository
-    final dataRepositoryDir =
-        Directory('${libFolder.path}/feature/$featureName/data/repository');
-    createFolder(dataRepositoryDir, 'repository');
+    //! create data Repository folder
+    commandHelper.createDataRepositoryFolder(featureName);
+
     //? create repository file
-    if (!fileless) {
-      createFile(
-        '${libFolder.path}/feature/$featureName/data/repository/${featureName}_repository.dart',
-        localString.getDataRepositoryString(featureName),
-      );
-    }
+    commandHelper.createDataRepositoryFile(fileless, featureName);
 
     //! create domain folder
-    final domainDir =
-        Directory('${libFolder.path}/feature/$featureName/domain');
-    createFolder(domainDir, 'domain');
+    commandHelper.createDomainFolder(featureName);
 
-    //! create domain folder
-    final modelDir =
-        Directory('${libFolder.path}/feature/$featureName/domain/model');
-    createFolder(modelDir, 'model');
+    //! create model folder
+    commandHelper.createModelFolder(featureName);
+
     //? create model file
-    if (!fileless) {
-      createFile(
-        '${libFolder.path}/feature/$featureName/domain/model/$featureName.dart',
-        '',
-      );
-    }
+    commandHelper.createModelFile(fileless, featureName);
 
-    // Repository
-    final domainRepositoryDir =
-        Directory('${libFolder.path}/feature/$featureName/domain/repository');
-    createFolder(domainRepositoryDir, 'repository');
+    //! create Domain Repository folder
+    commandHelper.createDomainRepositoryFolder(featureName);
+
     //? create repository file
-    if (!fileless) {
-      createFile(
-        '${libFolder.path}/feature/$featureName/domain/repository/${featureName}_repository_impl.dart',
-        localString.getDomainRepositoryString(featureName),
-      );
-    }
+    commandHelper.createDomainRepositoryFile(fileless, featureName);
 
-    ///* create presentation folder
-    final presentationDir =
-        Directory('${libFolder.path}/feature/$featureName/presentation');
-    createFolder(presentationDir, 'presentation');
+    //! create presentation folder
+    commandHelper.createPresentationFolder(featureName);
 
-    // view
-    final viewDir =
-        Directory('${libFolder.path}/feature/$featureName/presentation/view');
-    createFolder(viewDir, 'view');
+    //! create view folder
+    commandHelper.createViewFolder(featureName);
 
-    // View Model
-    final viewModelDir = Directory(
-      '${libFolder.path}/feature/$featureName/presentation/view_model',
-    );
-    createFolder(viewModelDir, 'view_model');
+    //! create View-Model folder
+   commandHelper.createViewModelFolder(featureName);
 
-    // Widgets
-    final widgetsDir = Directory(
-      '${libFolder.path}/feature/$featureName/presentation/widgets',
-    );
-    createFolder(widgetsDir, 'widgets');
+    //! create Widgets folder
+    commandHelper.createWidgetsFolder(featureName);
 
     // Now create files and write boilerplate code
     _logger.success(
-      '${featureName.capitalize} Dir with files created successfully',
+      '${featureName.capitalize} Directory with files created successfully',
     );
     return ExitCode.success.code;
   }
-}
-
-bool createFile(String path, String? content) {
-  final file = File(path);
-  try {
-    file.writeAsStringSync(content ?? '');
-    return true;
-  } catch (e) {
-    Logger().err(e.toString());
-    return false;
-  }
-}
-
-bool createFolder(Directory path, String? folderName) {
-  try {
-    if (!path.existsSync()) {
-      Logger().info(lightYellow.wrap('Creating ${folderName ?? ""} folder'));
-      path.createSync();
-    }
-  } catch (e) {}
-  return false;
 }
