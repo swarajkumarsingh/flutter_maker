@@ -42,7 +42,7 @@ class MakerCommand extends Command<int> {
       );
       return ExitCode.software.code;
     }
-    _logger.progress('Total time --> ');
+    final updateCheckProgress = _logger.progress('Started Building');
 
     if (featureName.isEmpty) {
       _logger.err('Error: Invalid feature name');
@@ -115,6 +115,8 @@ class MakerCommand extends Command<int> {
     _logger.success(
       '${featureName.capitalize} Directory with files created successfully',
     );
+
+    updateCheckProgress.complete('Complete Building');
     return ExitCode.success.code;
   }
 }

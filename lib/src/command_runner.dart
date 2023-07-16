@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:flutter_maker/src/commands/maker_command.dart';
@@ -56,13 +58,22 @@ class FlutterMakerCommandRunner extends CommandRunner<int> {
   Future<int?> runCommand(ArgResults topLevelResults) async {
     final int? exitCode;
     if (topLevelResults['version'] == true) {
-      _logger.info(packageVersion);
+      _logger.info(getPackageVersion());
       exitCode = ExitCode.success.code;
     } else {
       exitCode = await super.runCommand(topLevelResults);
     }
     await _checkForUpdates();
     return exitCode;
+  }
+
+  String getPackageVersion() {
+    Process.run('dart', ['pub', 'run', 'build_runner', 'build'])
+        .then((ProcessResult result) {
+      return packageVersion;
+    });
+
+    return packageVersion;
   }
 
   Future<void> _checkForUpdates() async {

@@ -4,3 +4,6 @@
 ## 1.0.0
 
 * Implemented clean code folders and file programmatically 
+## 1.0.1
+
+* Update Bug fixed 
