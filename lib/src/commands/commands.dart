@@ -5,4 +5,5 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-// export 'update_command.dart';
+export 'maker_command.dart';
+export 'update_command.dart';

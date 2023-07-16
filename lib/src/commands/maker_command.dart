@@ -8,6 +8,7 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:flutter_maker/src/commands_helper.dart';
 import 'package:flutter_maker/src/local/local_strings.dart';
 import 'package:flutter_maker/src/string_extension.dart';
 import 'package:mason_logger/mason_logger.dart';
@@ -46,26 +47,24 @@ class MakerCommand extends Command<int> {
       return ExitCode.software.code;
     }
 
-    // create feature's folder
-    final rootFeatureDir = Directory('${libFolder.path}/feature');
-    if (!rootFeatureDir.existsSync()) {
-      _logger.info(lightYellow.wrap('Creating Feature folder'));
-      rootFeatureDir.createSync();
-    }
+    //! create feature folder
+    commandHelper.createFeatureFolder();
 
-    // create featureName(home)
+    //! create featureName(home) folder
     final featureNameDir = Directory('${libFolder.path}/feature/$featureName');
     createFolder(featureNameDir, featureName);
 
-    ///* create data folder
+    //! create data folder
     final dataDir = Directory('${libFolder.path}/feature/$featureName/data');
     createFolder(dataDir, 'data');
 
-    // Data Source
+    //! create data_source folder
     final dataSourceDir = Directory(
       '${libFolder.path}/feature/$featureName/data/data_source',
     );
     createFolder(dataSourceDir, 'data_source');
+
+    //? create data_source file
     if (!fileless) {
       createFile(
         '${libFolder.path}/feature/$featureName/data/data_source/${featureName}_data_source.dart',
@@ -73,10 +72,11 @@ class MakerCommand extends Command<int> {
       );
     }
 
-    // Local
+    //! create local folder
     final localDir =
         Directory('${libFolder.path}/feature/$featureName/data/local');
     createFolder(localDir, 'local');
+    //? create data_provider file
     if (!fileless) {
       createFile(
         '${libFolder.path}/feature/$featureName/data/local/${featureName}_data_provider.dart',
@@ -88,6 +88,7 @@ class MakerCommand extends Command<int> {
     final dataRepositoryDir =
         Directory('${libFolder.path}/feature/$featureName/data/repository');
     createFolder(dataRepositoryDir, 'repository');
+    //? create repository file
     if (!fileless) {
       createFile(
         '${libFolder.path}/feature/$featureName/data/repository/${featureName}_repository.dart',
@@ -95,15 +96,16 @@ class MakerCommand extends Command<int> {
       );
     }
 
-    ///* create domain folder
+    //! create domain folder
     final domainDir =
         Directory('${libFolder.path}/feature/$featureName/domain');
     createFolder(domainDir, 'domain');
 
-    // Model
+    //! create domain folder
     final modelDir =
         Directory('${libFolder.path}/feature/$featureName/domain/model');
     createFolder(modelDir, 'model');
+    //? create model file
     if (!fileless) {
       createFile(
         '${libFolder.path}/feature/$featureName/domain/model/$featureName.dart',
@@ -115,6 +117,7 @@ class MakerCommand extends Command<int> {
     final domainRepositoryDir =
         Directory('${libFolder.path}/feature/$featureName/domain/repository');
     createFolder(domainRepositoryDir, 'repository');
+    //? create repository file
     if (!fileless) {
       createFile(
         '${libFolder.path}/feature/$featureName/domain/repository/${featureName}_repository_impl.dart',
