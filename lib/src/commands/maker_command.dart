@@ -8,6 +8,7 @@
 import 'dart:io';
 
 import 'package:args/command_runner.dart';
+import 'package:flutter_maker/src/local/local_strings.dart';
 import 'package:flutter_maker/src/string_extension.dart';
 import 'package:mason_logger/mason_logger.dart';
 
@@ -48,44 +49,100 @@ class MakerCommand extends Command<int> {
     // create feature's folder
     final rootFeatureDir = Directory('${libFolder.path}/feature');
     if (!rootFeatureDir.existsSync()) {
-      _logger.alert('Creating Feature folder');
+      _logger.info(lightYellow.wrap('Creating Feature folder'));
       rootFeatureDir.createSync();
     }
 
     // create featureName(home)
     final featureNameDir = Directory('${libFolder.path}/feature/$featureName');
-    if (!featureNameDir.existsSync()) {
-      _logger.alert('Creating ${featureName.capitalize} folder');
-      featureNameDir.createSync();
-    }
+    createFolder(featureNameDir, featureName);
 
-    // create folder (data, domain, presentation) layer
     ///* create data folder
     final dataDir = Directory('${libFolder.path}/feature/$featureName/data');
-    if (!dataDir.existsSync()) {
-      _logger.alert('Creating Data folder');
-      dataDir.createSync();
+    createFolder(dataDir, 'data');
+
+    // Data Source
+    final dataSourceDir =
+        Directory('${libFolder.path}/feature/$featureName/data/data_source');
+    createFolder(dataSourceDir, 'data_source');
+    if (!fileless) {
+      createFile(
+        '${libFolder.path}/feature/$featureName/data/data_source/${featureName}_data_source.dart',
+        localString.getDataSourceString(featureName),
+      );
+    }
+
+    // Local
+    final localDir =
+        Directory('${libFolder.path}/feature/$featureName/data/local');
+    if (!localDir.existsSync()) {
+      _logger.info(lightYellow.wrap('Creating Local folder'));
+      localDir.createSync();
+    }
+    // Repository
+    final dataRepositoryDir =
+        Directory('${libFolder.path}/feature/$featureName/data/repository');
+    if (!dataRepositoryDir.existsSync()) {
+      _logger.info(lightYellow.wrap('Creating Data-Repository folder'));
+      dataRepositoryDir.createSync();
     }
 
     ///* create domain folder
     final domainDir =
         Directory('${libFolder.path}/feature/$featureName/domain');
     if (!domainDir.existsSync()) {
-      _logger.alert('Creating Domain folder');
+      _logger.info(lightYellow.wrap('Creating Domain folder'));
       domainDir.createSync();
+    }
+
+    // Model
+    final modelDir =
+        Directory('${libFolder.path}/feature/$featureName/domain/model');
+    if (!modelDir.existsSync()) {
+      _logger.info(lightYellow.wrap('Creating Model folder'));
+      modelDir.createSync();
+    }
+
+    // Repository
+    final domainRepositoryDir =
+        Directory('${libFolder.path}/feature/$featureName/domain/repository');
+    if (!domainRepositoryDir.existsSync()) {
+      _logger.info(lightYellow.wrap('Creating Domain-Repository folder'));
+      domainRepositoryDir.createSync();
     }
 
     ///* create presentation folder
     final presentationDir =
         Directory('${libFolder.path}/feature/$featureName/presentation');
     if (!presentationDir.existsSync()) {
-      _logger.alert('Creating Presentation folder');
+      _logger.info(lightYellow.wrap('Creating Presentation folder'));
       presentationDir.createSync();
     }
 
-    if (fileless) {
-      _logger.success('$featureName Dir created successfully');
-      return ExitCode.success.code;
+    // view
+    final viewDir =
+        Directory('${libFolder.path}/feature/$featureName/presentation/view');
+    if (!viewDir.existsSync()) {
+      _logger.info(lightYellow.wrap('Creating View folder'));
+      viewDir.createSync();
+    }
+
+    // View Model
+    final viewModelDir = Directory(
+      '${libFolder.path}/feature/$featureName/presentation/view_model',
+    );
+    if (!viewModelDir.existsSync()) {
+      _logger.info(lightYellow.wrap('Creating View-Model folder'));
+      viewModelDir.createSync();
+    }
+
+    // Widgets
+    final widgetsDir = Directory(
+      '${libFolder.path}/feature/$featureName/presentation/widgets',
+    );
+    if (!widgetsDir.existsSync()) {
+      _logger.info(lightYellow.wrap('Creating Presentation folder'));
+      widgetsDir.createSync();
     }
 
     // Now create files and write boilerplate code
@@ -94,4 +151,25 @@ class MakerCommand extends Command<int> {
     );
     return ExitCode.success.code;
   }
+}
+
+bool createFile(String path, String content) {
+  final file = File(path);
+  try {
+    file.writeAsStringSync(content);
+    return true;
+  } catch (e) {
+    Logger().err(e.toString());
+    return false;
+  }
+}
+
+bool createFolder(Directory path, String? folderName) {
+  try {
+    if (!path.existsSync()) {
+      Logger().info(lightYellow.wrap('Creating ${folderName ?? ""} folder'));
+      path.createSync();
+    }
+  } catch (e) {}
+  return false;
 }

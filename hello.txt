@@ -1,0 +1,19 @@
+
+
+  // Get the application's working directory
+  String currentDirectory = Directory.current.path;
+
+  // Combine the working directory with the file name
+  String filePath = '$currentDirectory/$fileName';
+
+  // Create the file
+  File file = File(filePath);
+
+  try {
+    // Write data to the file
+    file.writeAsStringSync(content);
+
+    print('File created successfully at: $filePath');
+  } catch (e) {
+    print('An error occurred while creating the file: $e');
+  }

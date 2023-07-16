@@ -75,7 +75,7 @@ class FlutterMakerCommandRunner extends CommandRunner<int> {
           ..info(
             '''
 ${lightYellow.wrap('Update available!')} ${lightCyan.wrap(packageVersion)} \u2192 ${lightCyan.wrap(latestVersion)}
-Run ${lightCyan.wrap('dart pub global activate flutter_scripts')} to update''',
+Run ${lightCyan.wrap('dart pub global activate flutter_maker')} to update''',
           );
       }
     } catch (_) {}

@@ -25,10 +25,11 @@ dependencies:
 ```dart
 import 'package:flutter_cli/flutter_cli.dart';
 ```
+
 3. If the CLI application is available on [pub](https://pub.dev), activate globally via:
 
 ```sh
-dart pub global activate flutter_scripts
+dart pub global activate flutter_maker
 ```
 
 Or locally via:
@@ -42,7 +43,6 @@ dart pub global activate --source=path <path to this package>
 ```
   flutter_cli install dio
 ```
-
 
 ## Contributions
 
