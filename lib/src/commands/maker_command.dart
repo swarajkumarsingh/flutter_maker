@@ -75,75 +75,49 @@ class MakerCommand extends Command<int> {
     // Local
     final localDir =
         Directory('${libFolder.path}/feature/$featureName/data/local');
-    if (!localDir.existsSync()) {
-      _logger.info(lightYellow.wrap('Creating Local folder'));
-      localDir.createSync();
-    }
+    createFolder(localDir, 'local');
+
     // Repository
     final dataRepositoryDir =
         Directory('${libFolder.path}/feature/$featureName/data/repository');
-    if (!dataRepositoryDir.existsSync()) {
-      _logger.info(lightYellow.wrap('Creating Data-Repository folder'));
-      dataRepositoryDir.createSync();
-    }
+    createFolder(dataRepositoryDir, 'repository');
 
     ///* create domain folder
     final domainDir =
         Directory('${libFolder.path}/feature/$featureName/domain');
-    if (!domainDir.existsSync()) {
-      _logger.info(lightYellow.wrap('Creating Domain folder'));
-      domainDir.createSync();
-    }
+    createFolder(domainDir, 'domain');
 
     // Model
     final modelDir =
         Directory('${libFolder.path}/feature/$featureName/domain/model');
-    if (!modelDir.existsSync()) {
-      _logger.info(lightYellow.wrap('Creating Model folder'));
-      modelDir.createSync();
-    }
+    createFolder(modelDir, 'model');
 
     // Repository
     final domainRepositoryDir =
         Directory('${libFolder.path}/feature/$featureName/domain/repository');
-    if (!domainRepositoryDir.existsSync()) {
-      _logger.info(lightYellow.wrap('Creating Domain-Repository folder'));
-      domainRepositoryDir.createSync();
-    }
+    createFolder(domainRepositoryDir, 'repository');
 
     ///* create presentation folder
     final presentationDir =
         Directory('${libFolder.path}/feature/$featureName/presentation');
-    if (!presentationDir.existsSync()) {
-      _logger.info(lightYellow.wrap('Creating Presentation folder'));
-      presentationDir.createSync();
-    }
+    createFolder(presentationDir, 'presentation');
 
     // view
     final viewDir =
         Directory('${libFolder.path}/feature/$featureName/presentation/view');
-    if (!viewDir.existsSync()) {
-      _logger.info(lightYellow.wrap('Creating View folder'));
-      viewDir.createSync();
-    }
+    createFolder(viewDir, 'view');
 
     // View Model
     final viewModelDir = Directory(
       '${libFolder.path}/feature/$featureName/presentation/view_model',
     );
-    if (!viewModelDir.existsSync()) {
-      _logger.info(lightYellow.wrap('Creating View-Model folder'));
-      viewModelDir.createSync();
-    }
+    createFolder(viewModelDir, 'view_model');
 
     // Widgets
     final widgetsDir = Directory(
       '${libFolder.path}/feature/$featureName/presentation/widgets',
     );
-    if (!widgetsDir.existsSync()) {
-      _logger.info(lightYellow.wrap('Creating Presentation folder'));
-      widgetsDir.createSync();
-    }
+    createFolder(widgetsDir, 'widgets');
 
     // Now create files and write boilerplate code
     _logger.success(
