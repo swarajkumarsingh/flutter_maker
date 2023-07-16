@@ -1,6 +1,6 @@
-# Flutter Url Launcher Plus
+# Flutter Maker | CLI
 
-- flutter_cli helps to install package from cmd.
+- Generate clean code folders and file programmatically with pure dart independent code
 
 ## Supported Devices
 
@@ -17,13 +17,13 @@
 
 ```yaml
 dependencies:
-  flutter_cli:
+  flutter_maker:
 ```
 
 2. Import the package and use it in your Flutter App.
 
 ```dart
-import 'package:flutter_cli/flutter_cli.dart';
+import 'package:flutter_maker/flutter_maker.dart';
 ```
 
 3. If the CLI application is available on [pub](https://pub.dev), activate globally via:
@@ -36,12 +36,59 @@ Or locally via:
 
 ```sh
 dart pub global activate --source=path <path to this package>
+dart pub global activate --source path .
 ```
 
 ## Example
 
+Create files and folder
 ```
-  flutter_cli install dio
+  maker make home
+```
+Get package version
+```
+  maker -v
+```
+Get Help
+```
+  maker -h
+```
+
+## Project Folder Structure
+```
+- bin
+  - flutter_maker.dart
+- lib
+  - src
+    - commands
+      - commands.dart
+      - maker_command.dart
+      - update_command.dart
+    - local
+      - local_strings.dart
+    - version.dart
+    - commands_helper.dart
+    - command_runner.dart.dart
+    - string_extension.dart
+  - flutter_maker.dart
+```
+
+## Programmatically Created Folder Structure
+
+```
+- feature
+  - Home
+    - data
+      - Data_Source
+      - Local
+      - Repository
+    - domain
+      - Model
+      - Repository
+    - presentation
+      - View
+      - ViewModel
+      - Widgets
 ```
 
 ## Contributions

@@ -1,6 +1,6 @@
 name: flutter_maker
-description: Generate folder programmatically using pure dart cli
-version: 0.0.1
+description: Generate clean code folders and file programmatically with pure dart independent code
+version: 1.0.0
 homepage: https://github.com/swarajkumarsingh/flutter_maker
 repository: https://github.com/swarajkumarsingh/flutter_maker
 
@@ -17,3 +17,6 @@ dev_dependencies:
   build_verify: ^3.1.0
   build_version: ^2.1.1
   very_good_analysis: ^3.0.1
+
+executables:
+  maker: flutter_maker

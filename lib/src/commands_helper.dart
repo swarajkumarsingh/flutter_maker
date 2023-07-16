@@ -27,8 +27,11 @@ class _CommandHelper {
       if (!path.existsSync()) {
         Logger().info(lightYellow.wrap('Creating ${folderName ?? ""} folder'));
         path.createSync();
+        return true;
       }
-    } catch (e) {}
+    } catch (e) {
+      return false;
+    }
     return false;
   }
 

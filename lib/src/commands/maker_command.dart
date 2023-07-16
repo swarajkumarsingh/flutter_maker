@@ -5,7 +5,7 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-// ignore_for_file: cascade_invocations
+// ignore_for_file: cascade_invocations, lines_longer_than_80_chars
 
 import 'dart:io';
 
@@ -31,12 +31,21 @@ class MakerCommand extends Command<int> {
 
   @override
   Future<int> run() async {
-    final featureName = argResults!.arguments.first.lower;
+    var featureName = '';
     final fileless = argResults!.wasParsed('fileless');
+
+    try {
+      featureName = argResults!.arguments.first.lower;
+    } catch (e) {
+      _logger.err(
+        'Error: Invalid make value entered, try correcting the value or re-enter the value',
+      );
+      return ExitCode.software.code;
+    }
     _logger.progress('Total time --> ');
 
     if (featureName.isEmpty) {
-      _logger.err('invalid feature name');
+      _logger.err('Error: Invalid feature name');
       return ExitCode.software.code;
     }
 
@@ -97,7 +106,7 @@ class MakerCommand extends Command<int> {
     commandHelper.createViewFolder(featureName);
 
     //! create View-Model folder
-   commandHelper.createViewModelFolder(featureName);
+    commandHelper.createViewModelFolder(featureName);
 
     //! create Widgets folder
     commandHelper.createWidgetsFolder(featureName);
