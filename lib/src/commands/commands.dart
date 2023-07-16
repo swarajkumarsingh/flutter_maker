@@ -5,14 +5,4 @@
 // license that can be found in the LICENSE file or at
 // https://opensource.org/licenses/MIT.
 
-/// flutter_scripts, A Very Good Project created by Very Good CLI.
-///
-/// ```sh
-/// # activate flutter_maker
-/// dart pub global activate flutter_maker
-///
-/// # see usage
-/// flutter_maker --help
-/// ```
-
-library flutter_maker;
+// export 'update_command.dart';
