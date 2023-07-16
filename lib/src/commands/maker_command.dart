@@ -29,7 +29,7 @@ class MakerCommand extends Command<int> {
 
   @override
   Future<int> run() async {
-    final featureName = argResults!.arguments.first;
+    final featureName = argResults!.arguments.first.lower;
     final fileless = argResults!.wasParsed('fileless');
     _logger.progress('Started Building');
 
@@ -62,8 +62,9 @@ class MakerCommand extends Command<int> {
     createFolder(dataDir, 'data');
 
     // Data Source
-    final dataSourceDir =
-        Directory('${libFolder.path}/feature/$featureName/data/data_source');
+    final dataSourceDir = Directory(
+      '${libFolder.path}/feature/$featureName/data/data_source',
+    );
     createFolder(dataSourceDir, 'data_source');
     if (!fileless) {
       createFile(
@@ -76,11 +77,23 @@ class MakerCommand extends Command<int> {
     final localDir =
         Directory('${libFolder.path}/feature/$featureName/data/local');
     createFolder(localDir, 'local');
+    if (!fileless) {
+      createFile(
+        '${libFolder.path}/feature/$featureName/data/local/${featureName}_data_provider.dart',
+        localString.getLocalDataString(featureName),
+      );
+    }
 
     // Repository
     final dataRepositoryDir =
         Directory('${libFolder.path}/feature/$featureName/data/repository');
     createFolder(dataRepositoryDir, 'repository');
+    if (!fileless) {
+      createFile(
+        '${libFolder.path}/feature/$featureName/data/repository/${featureName}_repository.dart',
+        localString.getDataRepositoryString(featureName),
+      );
+    }
 
     ///* create domain folder
     final domainDir =
@@ -91,11 +104,23 @@ class MakerCommand extends Command<int> {
     final modelDir =
         Directory('${libFolder.path}/feature/$featureName/domain/model');
     createFolder(modelDir, 'model');
+    if (!fileless) {
+      createFile(
+        '${libFolder.path}/feature/$featureName/domain/model/$featureName.dart',
+        '',
+      );
+    }
 
     // Repository
     final domainRepositoryDir =
         Directory('${libFolder.path}/feature/$featureName/domain/repository');
     createFolder(domainRepositoryDir, 'repository');
+    if (!fileless) {
+      createFile(
+        '${libFolder.path}/feature/$featureName/domain/repository/${featureName}_repository_impl.dart',
+        localString.getDomainRepositoryString(featureName),
+      );
+    }
 
     ///* create presentation folder
     final presentationDir =
@@ -127,10 +152,10 @@ class MakerCommand extends Command<int> {
   }
 }
 
-bool createFile(String path, String content) {
+bool createFile(String path, String? content) {
   final file = File(path);
   try {
-    file.writeAsStringSync(content);
+    file.writeAsStringSync(content ?? '');
     return true;
   } catch (e) {
     Logger().err(e.toString());
