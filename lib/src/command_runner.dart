@@ -1,3 +1,5 @@
+// ignore_for_file: inference_failure_on_instance_creation, avoid_print
+
 import 'dart:io';
 
 import 'package:args/args.dart';
@@ -58,7 +60,8 @@ class FlutterMakerCommandRunner extends CommandRunner<int> {
   Future<int?> runCommand(ArgResults topLevelResults) async {
     final int? exitCode;
     if (topLevelResults['version'] == true) {
-      _logger.info(getPackageVersion());
+      final result = await _getPackageVersion();
+      print('\x1B[32m$result \x1B[0m');
       exitCode = ExitCode.success.code;
     } else {
       exitCode = await super.runCommand(topLevelResults);
@@ -67,12 +70,8 @@ class FlutterMakerCommandRunner extends CommandRunner<int> {
     return exitCode;
   }
 
-  String getPackageVersion() {
-    Process.run('dart', ['pub', 'run', 'build_runner', 'build'])
-        .then((ProcessResult result) {
-      return packageVersion;
-    });
-
+  Future<String> _getPackageVersion() async {
+    await Process.run('dart', ['pub', 'run', 'build_runner', 'build']);
     return packageVersion;
   }
 

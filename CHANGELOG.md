@@ -7,3 +7,6 @@
 ## 1.0.1
 
 * Update Bug fixed 
+## 1.0.2
+
+* Version Bug fixed
