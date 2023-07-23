@@ -1,11 +1,10 @@
 // ignore_for_file: inference_failure_on_instance_creation, avoid_print
 
-import 'dart:io';
-
 import 'package:args/args.dart';
 import 'package:args/command_runner.dart';
 import 'package:flutter_maker/src/commands/maker_command.dart';
 import 'package:flutter_maker/src/commands/update_command.dart';
+import 'package:flutter_maker/src/get_package_version.dart';
 import 'package:flutter_maker/src/version.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:pub_updater/pub_updater.dart';
@@ -60,7 +59,7 @@ class FlutterMakerCommandRunner extends CommandRunner<int> {
   Future<int?> runCommand(ArgResults topLevelResults) async {
     final int? exitCode;
     if (topLevelResults['version'] == true) {
-      final result = await _getPackageVersion();
+      final result = await getPackageCurrentVersion();
       print('\x1B[32m$result \x1B[0m');
       exitCode = ExitCode.success.code;
     } else {
@@ -70,15 +69,11 @@ class FlutterMakerCommandRunner extends CommandRunner<int> {
     return exitCode;
   }
 
-  Future<String> _getPackageVersion() async {
-    await Process.run('dart', ['pub', 'run', 'build_runner', 'build']);
-    return packageVersion;
-  }
-
   Future<void> _checkForUpdates() async {
     try {
       final latestVersion = await _pubUpdater.getLatestVersion(packageName);
-      final isUpToDate = packageVersion == latestVersion;
+      final latestPackageVersion = await getPackageCurrentVersion();
+      final isUpToDate = latestPackageVersion == latestVersion;
       if (!isUpToDate) {
         _logger
           ..info('')
