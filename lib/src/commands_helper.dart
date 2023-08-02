@@ -37,8 +37,8 @@ class _CommandHelper {
 
   int createFeatureFolder() {
     try {
-      final rootFeatureDir = Directory('${libFolder.path}/feature');
-      _createFolder(rootFeatureDir, 'feature');
+      final rootFeatureDir = Directory('${libFolder.path}/features');
+      _createFolder(rootFeatureDir, 'features');
       return ExitCode.success.code;
     } catch (e) {
       return ExitCode.software.code;

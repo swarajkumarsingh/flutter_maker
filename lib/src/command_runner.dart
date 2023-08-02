@@ -5,7 +5,6 @@ import 'package:args/command_runner.dart';
 import 'package:flutter_maker/src/commands/maker_command.dart';
 import 'package:flutter_maker/src/commands/update_command.dart';
 import 'package:flutter_maker/src/get_package_version.dart';
-import 'package:flutter_maker/src/version.dart';
 import 'package:mason_logger/mason_logger.dart';
 import 'package:pub_updater/pub_updater.dart';
 
@@ -79,7 +78,7 @@ class FlutterMakerCommandRunner extends CommandRunner<int> {
           ..info('')
           ..info(
             '''
-${lightYellow.wrap('Update available!')} ${lightCyan.wrap(packageVersion)} \u2192 ${lightCyan.wrap(latestVersion)}
+${lightYellow.wrap('Update available!')} ${lightCyan.wrap(latestPackageVersion)} \u2192 ${lightCyan.wrap(latestVersion)}
 Run ${lightCyan.wrap('dart pub global activate $packageName')} to update''',
           );
       }

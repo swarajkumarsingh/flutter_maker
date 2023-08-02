@@ -32,7 +32,7 @@ class MakerCommand extends Command<int> {
   @override
   Future<int> run() async {
     var featureName = '';
-    final fileless = argResults!.wasParsed('fileless');
+    final fileless = argResults?.wasParsed('fileless') ?? false;
 
     try {
       featureName = argResults!.arguments.first.lower;
